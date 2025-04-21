@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login with Facebook</title>
+</head>
+
+<body>
+
+    <!-- Facebook root -->
+    <div id="fb-root"></div>
+
+    <!-- Your Login Button -->
+    <button onclick="loginWithFacebook()">Login with Facebook</button>
+
+    <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+    <!-- Your Scripts -->
+    <script>
+        function loginWithFacebook() {
+            FB.login(function (response) {
+                if (response.authResponse) {
+                    console.log('Welcome! Fetching your information....');
+                    FB.api('/me', { fields: 'name,email' }, function (userInfo) {
+                        console.log('Good to see you, ' + userInfo.name + '.');
+                        console.log('Email:', userInfo.email);
+                        // Gửi userInfo về server nếu cần
+                    });
+                } else {
+                    console.log('User cancelled login or did not fully authorize.');
+                }
+            }, { scope: 'email' });
+        }
+
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '1337135350905320', // <-- Thay bằng App ID thật
+                cookie: true,
+                xfbml: true,
+                version: 'v22.0'
+            });
+        };
+    </script>
+
+</body>
+
+</html>
